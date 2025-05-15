@@ -1,3 +1,5 @@
+import sprite.Animation;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -34,6 +36,9 @@ public class GamePanel extends JPanel implements KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        Animation.updateFrameCount();
+
         // Background
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, WIDTH, HEIGHT);
