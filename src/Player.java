@@ -1,8 +1,27 @@
+import sprite.AnimatedSprite;
+import sprite.Animation;
+import sprite.SpriteSheet;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Player {
+    private static final SpriteSheet SPRITE_SHEET;
+    private static final Animation WALK_ANIMATION;
+
+    static {
+        try {
+            SPRITE_SHEET = SpriteSheet.fromImage(ImageIO.read(new File("./generic_char_v0.2/png/red/char_red_2.png")), 56, 56);
+            WALK_ANIMATION = Animation.fromSheet(SPRITE_SHEET, 0, 0, 10);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Rectangle rect;
     private double velocityY = 0;
     private final double GRAVITY = 0.8;
@@ -10,8 +29,11 @@ public class Player {
     private final int MOVE_SPEED = 5;
     private boolean onGround = false;
 
+    private AnimatedSprite sprite;
+
     public Player(int x, int y, int width, int height) {
         rect = new Rectangle(x, y, width, height);
+        sprite = new AnimatedSprite(WALK_ANIMATION);
     }
 
     public void update(boolean[] keys, ArrayList<Block> blocks) {
@@ -55,7 +77,6 @@ public class Player {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.BLUE);
-        g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        sprite.draw(g, rect.x, rect.y);
     }
 }
