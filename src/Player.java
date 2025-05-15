@@ -25,7 +25,7 @@ public class Player {
     private Rectangle rect;
     private double velocityY = 0;
     private final double GRAVITY = 0.8;
-    private final double JUMP_STRENGTH = -20;
+    private final double JUMP_STRENGTH = -15;
     private final int MOVE_SPEED = 5;
     private boolean onGround = false;
 
@@ -79,4 +79,9 @@ public class Player {
     public void draw(Graphics g) {
         sprite.draw(g, rect.x, rect.y);
     }
+    
+    public Rectangle getRect() {
+        return rect;
+    }
+
 }

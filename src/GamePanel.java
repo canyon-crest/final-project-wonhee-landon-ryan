@@ -31,7 +31,15 @@ public class GamePanel extends JPanel implements KeyListener {
 
     private void update() {
         player.update(keys, blocks);
-    }
+        
+       // Check for level transition
+        if (player.getRect().y < 0) {
+        	player.getRect().y = HEIGHT - player.getRect().height; // Move to bottom
+            generateRandomPlatforms();
+            }
+}
+
+ 
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -51,6 +59,26 @@ public class GamePanel extends JPanel implements KeyListener {
             b.draw(g);
         }
     }
+    
+    private void generateRandomPlatforms() {
+        blocks.clear();
+
+        // Always add a floor
+        blocks.add(new Block(0, HEIGHT - 40, WIDTH, 40));
+
+        // Add 5–8 random platforms
+        int numPlatforms = 5 + (int)(Math.random() * 4); // 5 to 8
+        for (int i = 0; i < numPlatforms; i++) {
+            int platformWidth = 100 + (int)(Math.random() * 100); // 100-200 px wide
+            int platformHeight = 20;
+            int x = (int)(Math.random() * (WIDTH - platformWidth));
+            int y = 100 + (int)(Math.random() * (HEIGHT - 200)); // keep it inside visible area
+
+            blocks.add(new Block(x, y, platformWidth, platformHeight));
+        }
+    }
+    
+    
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -67,4 +95,8 @@ public class GamePanel extends JPanel implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {}
+    
+    
 }
+
+
