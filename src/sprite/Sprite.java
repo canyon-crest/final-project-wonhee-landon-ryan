@@ -2,10 +2,10 @@ package sprite;
 
 import java.awt.*;
 
-public class AnimatedSprite {
-    private Animation animation;
+public class Sprite {
+    public Animation animation;
 
-    public AnimatedSprite(Animation animation) {
+    public Sprite(Animation animation) {
         this.animation = animation;
     }
 
