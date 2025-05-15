@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Animation.updateFrameCount();
+        Animation.update();
 
         // Background
         g.setColor(Color.WHITE);

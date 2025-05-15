@@ -3,7 +3,7 @@ package sprite;
 import java.awt.*;
 
 public class Animation {
-    public static int frameCount;
+    private static int frameIndex;
 
     public static Animation fromSheet(SpriteSheet sheet, int row, int col, int nFrames) {
         Image[] frames = new Image[nFrames];
@@ -15,8 +15,8 @@ public class Animation {
         return new Animation(frames);
     }
 
-    public static void updateFrameCount() {
-        frameCount++;
+    public static void update() {
+        frameIndex = (int) (System.currentTimeMillis() / 100L);
     }
 
     private final Image[] frames;
@@ -26,6 +26,6 @@ public class Animation {
     }
 
     public Image getFrame() {
-        return this.frames[frameCount % this.frames.length];
+        return this.frames[frameIndex % this.frames.length];
     }
 }
