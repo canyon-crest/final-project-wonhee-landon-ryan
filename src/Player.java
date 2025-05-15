@@ -26,8 +26,8 @@ public class Player {
 
     private Rectangle rect;
     private double velocityY = 0;
-    private final double GRAVITY = 0.5;
-    private final double JUMP_STRENGTH = -10;
+    private final double GRAVITY = 0.8;
+    private final double JUMP_STRENGTH = -20;
     private final int MOVE_SPEED = 5;
     private boolean onGround = false;
 
