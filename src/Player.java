@@ -16,7 +16,8 @@ public class Player {
 
     static {
         try {
-            SPRITE_SHEET = SpriteSheet.fromImage(ImageIO.read(new File("./generic_char_v0.2/png/red/char_red_2.png")), 56, 56);
+            // https://brullov.itch.io/generic-char-asset
+            SPRITE_SHEET = SpriteSheet.fromImage(ImageIO.read(new File("./assets/character/red/char_red_2.png")), 56, 56);
             IDLE_ANIMATION = Animation.fromSheet(SPRITE_SHEET, 0, 0, 1);
             WALK_ANIMATION = Animation.fromSheet(SPRITE_SHEET, 0, 0, 10);
         } catch (IOException e) {

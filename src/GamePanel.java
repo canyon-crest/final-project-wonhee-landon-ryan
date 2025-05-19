@@ -6,18 +6,20 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements KeyListener {
+    private Background background;
     private Player player;
     private ArrayList<Block> blocks = new ArrayList<>();
     private boolean[] keys = new boolean[256];
 
-    private final int WIDTH = 800, HEIGHT = 600;
+    public static final int WIDTH = 800, HEIGHT = 600;
 
     public GamePanel() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setFocusable(true);
         addKeyListener(this);
 
-        player = new Player(100, 500, 40, 60);
+        background = new Background();
+        player = new Player(100, 400, 40, 80);
         blocks.add(new Block(0, 560, 800, 40)); // Ground
     }
 
@@ -36,10 +38,8 @@ public class GamePanel extends JPanel implements KeyListener {
         if (player.getRect().y < 0) {
         	player.getRect().y = HEIGHT - player.getRect().height; // Move to bottom
             generateRandomPlatforms();
-            }
-}
-
- 
+        }
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -48,8 +48,7 @@ public class GamePanel extends JPanel implements KeyListener {
         Animation.update();
 
         // Background
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+        background.draw(g);
 
         // Player
         player.draw(g);

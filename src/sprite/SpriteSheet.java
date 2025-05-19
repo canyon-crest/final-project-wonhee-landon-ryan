@@ -11,7 +11,7 @@ public class SpriteSheet {
         Image[][] result = new Image[nRows][nCols];
         for (int row = 0; row < nRows; row++) {
             for (int col = 0; col < nCols; col++) {
-                result[row][col] = src.getSubimage(col * width, row * height, width, height).getScaledInstance(width*2, height*2, BufferedImage.SCALE_FAST);
+                result[row][col] = PixelArtUtil.scale(src.getSubimage(col * width, row * height, width, height));
             }
         }
 
