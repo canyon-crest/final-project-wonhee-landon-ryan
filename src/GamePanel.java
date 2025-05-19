@@ -18,7 +18,8 @@ public class GamePanel extends JPanel implements KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
-        player = new Player(100, 500, 40, 60);
+        background = new Background();
+        player = new Player(100, 500, 40, 80);
         generateRandomPlatforms(); 
     }
 
