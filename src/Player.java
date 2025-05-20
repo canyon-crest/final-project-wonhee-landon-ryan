@@ -42,6 +42,8 @@ public class Player {
     public void update(boolean[] keys, ArrayList<Block> blocks) {
         sprite.animation = IDLE_ANIMATION;
         if (keys[KeyEvent.VK_A] || keys[KeyEvent.VK_D]) sprite.animation = WALK_ANIMATION;
+        if (keys[KeyEvent.VK_A]) sprite.isFlipped = true;
+        if (keys[KeyEvent.VK_D]) sprite.isFlipped = false;
 
         // Handle horizontal movement
         if (keys[KeyEvent.VK_A]) {
