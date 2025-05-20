@@ -117,7 +117,7 @@ public class Player {
 
 
     public void draw(Graphics g) {
-        sprite.draw(g, rect.x, rect.y);
+        sprite.draw(g, rect.x + rect.width / 2, rect.y);
     }
     
     public Rectangle getRect() {
