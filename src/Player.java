@@ -25,11 +25,13 @@ public class Player {
         }
     }
 
+    private static final double GRAVITY = 2880;
+    private static final double JUMP_STRENGTH = -1500;
+    private static final double MOVE_SPEED = 400;
+
     private Rectangle rect;
+    private double velocityX = 0;
     private double velocityY = 0;
-    private final double GRAVITY = 0.8;
-    private final double JUMP_STRENGTH = -25;
-    private final int MOVE_SPEED = 5;
     private boolean onGround = false;
 
     private Sprite sprite;
@@ -39,23 +41,31 @@ public class Player {
         sprite = new Sprite(WALK_ANIMATION);
     }
 
-    public void update(boolean[] keys, ArrayList<Block> blocks) {
-        sprite.animation = IDLE_ANIMATION;
-        if (keys[KeyEvent.VK_A] || keys[KeyEvent.VK_D]) sprite.animation = WALK_ANIMATION;
-        if (keys[KeyEvent.VK_A]) sprite.isFlipped = true;
-        if (keys[KeyEvent.VK_D]) sprite.isFlipped = false;
-
+    public void update(boolean[] keys, ArrayList<Block> blocks, double dt) {
         // Handle horizontal movement
+        velocityX = 0;
         if (keys[KeyEvent.VK_A]) {
-            rect.x -= MOVE_SPEED;
+            velocityX -= MOVE_SPEED;
         }
         if (keys[KeyEvent.VK_D]) {
-            rect.x += MOVE_SPEED;
+            velocityX += MOVE_SPEED;
+        }
+
+        // Update animations
+        if (velocityX > 0.1) {
+            sprite.animation = WALK_ANIMATION;
+            sprite.isFlipped = false;
+        } else if (velocityX < -0.1) {
+            sprite.animation = WALK_ANIMATION;
+            sprite.isFlipped = true;
+        } else {
+            sprite.animation = IDLE_ANIMATION;
         }
 
         // Apply gravity
-        velocityY += GRAVITY;
-        rect.y += velocityY;
+        velocityY += GRAVITY * dt;
+        rect.x += (int) Math.round(velocityX * dt);
+        rect.y += (int) Math.round(velocityY * dt);
 
         // Check and resolve vertical collisions
         for (Block block : blocks) {

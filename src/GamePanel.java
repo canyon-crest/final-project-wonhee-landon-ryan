@@ -10,6 +10,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private Player player;
     private ArrayList<Block> blocks = new ArrayList<>();
     private boolean[] keys = new boolean[256];
+    private long lastUpdate;
 
     public static final int WIDTH = 800, HEIGHT = 600;
 
@@ -25,6 +26,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
 
     public void startGameLoop() {
+        lastUpdate = System.nanoTime();
         Timer timer = new Timer(16, e -> {
             update();
             repaint();
@@ -33,7 +35,11 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     private void update() {
-        player.update(keys, blocks);
+        long now = System.nanoTime();
+        double dt = (double) (now - lastUpdate) / 1e9;
+        lastUpdate = now;
+
+        player.update(keys, blocks, dt);
 
         // Check for level transition
         if (player.getRect().y < 0) {
@@ -131,8 +137,4 @@ public class GamePanel extends JPanel implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {}
-    
-    
 }
-
-
