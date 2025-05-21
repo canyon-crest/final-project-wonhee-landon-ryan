@@ -1,17 +1,26 @@
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 
 public class Game {
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Jump Man");
-        GamePanel panel = new GamePanel();
+        JFrame frame = new JFrame("Hare's Ascent");
+        JPanel mainPanel = new JPanel();
+
+        CardLayout cardLayout = new CardLayout();
+        mainPanel.setLayout(cardLayout);
+
+        GamePanel gamePanel = new GamePanel();
+
+        mainPanel.add(new TitleScreenPanel(mainPanel, cardLayout, gamePanel), "title");
+        mainPanel.add(gamePanel, "game");
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(panel);
+        frame.setContentPane(mainPanel);
         frame.pack();
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        panel.startGameLoop();
+        cardLayout.show(mainPanel, "title");
     }
 }
