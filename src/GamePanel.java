@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements KeyListener {
     	    setFocusable(true);
     	    addKeyListener(this);
 
-    	    player = new Player(100, 500, 40, 60);
+    	    player = new Player(100, 500, 40, 80);
     	    levels.add(generateRandomPlatformLevel());
     	    background = new Background();
     }
@@ -71,26 +71,12 @@ public class GamePanel extends JPanel implements KeyListener {
     
     private void placePlayerAtBottomSafely() {
         int safeY = HEIGHT - player.getRect().height - 50;
-
-        for (int attempt = 0; attempt < 10; attempt++) {
-            int x = 50 + (int)(Math.random() * (WIDTH - 100));
-            player.getRect().setLocation(x, safeY);
-            if (!checkCollision1(levels.get(currentLevel))) break;
-        }
-
-        player.resetVerticalVelocity();
+        player.getRect().setLocation(player.getRect().x, safeY);
     }
     
     private void placePlayerAtTopSafely() {
         int safeY = 10;
-
-        for (int attempt = 0; attempt < 10; attempt++) {
-            int x = 50 + (int)(Math.random() * (WIDTH - 100));
-            player.getRect().setLocation(x, safeY);
-            if (!checkCollision1(levels.get(currentLevel))) break;
-        }
-
-        player.resetVerticalVelocity();
+        player.getRect().setLocation(player.getRect().x, safeY);
     }
 
     private boolean checkCollision1(ArrayList<Block> blocks) {

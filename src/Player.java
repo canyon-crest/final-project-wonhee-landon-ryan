@@ -110,10 +110,6 @@ public class Player {
             velocityY = JUMP_STRENGTH;
         }
     }
-    
-    public void resetVerticalVelocity() {
-        velocityY = 0;
-    }
 
 
     public void draw(Graphics g) {
