@@ -15,6 +15,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private Background background;
     private Player player;
     private ArrayList<ArrayList<Block>> levels = new ArrayList<>();
+    private ArrayList<ArrayList<Enemy>> enemiesPerLevel = new ArrayList<>();
     private int currentLevel = 0;
     private boolean[] keys = new boolean[256];
     private long lastUpdate;
@@ -29,7 +30,8 @@ public class GamePanel extends JPanel implements KeyListener {
         player = new Player(100, 500, 40, 80);
         levels.add(generateRandomPlatformLevel());
         background = new Background();
-
+        levels.add(generateRandomPlatformLevel());
+        enemiesPerLevel.add(generateEnemiesForLevel(levels.get(0)));
         this.mainPanel = mainPanel;
         this.cardLayout = cardLayout;
     }
@@ -80,6 +82,8 @@ public class GamePanel extends JPanel implements KeyListener {
             // Create a new level above if it doesn't exist
             if (currentLevel >= levels.size()) {
                 levels.add(generateRandomPlatformLevel());
+                enemiesPerLevel.add(generateEnemiesForLevel(levels.get(currentLevel)));
+
             }
 
             placePlayerAtBottomSafely();
@@ -95,7 +99,46 @@ public class GamePanel extends JPanel implements KeyListener {
                 player.getRect().y = HEIGHT - player.getRect().height - 50;
             }
         }
+        
+        
+        ArrayList<Enemy> currentEnemies = enemiesPerLevel.get(currentLevel);
+
+        for (Enemy e : currentEnemies) {
+            e.update(player);
+
+            // If colliding with player, push them
+            if (e.getRect().intersects(player.getRect())) {
+                Rectangle er = e.getRect();
+                Rectangle pr = player.getRect();
+
+                if (er.x < pr.x) {
+                    pr.x += 2;
+                } else if (er.x > pr.x) {
+                    pr.x -= 2;
+                }
+            }
+        }
+
     }
+    
+    private ArrayList<Enemy> generateEnemiesForLevel(ArrayList<Block> blocks) {
+        ArrayList<Enemy> enemies = new ArrayList<>();
+
+        for (Block b : blocks) {
+            if (Math.random() < 0.3 && b.getRect().width >= 100 && b.getRect().y < HEIGHT - 100) {
+                int enemyWidth = 30;
+                int enemyHeight = 40;
+                int x = b.getRect().x + (int)(Math.random() * (b.getRect().width - enemyWidth));
+                int y = b.getRect().y - enemyHeight; // On top of platform
+
+                enemies.add(new Enemy(x, y, enemyWidth, enemyHeight));
+            }
+        }
+
+        return enemies;
+    }
+
+
 
 
     private void placePlayerAtBottomSafely() {
@@ -126,6 +169,10 @@ public class GamePanel extends JPanel implements KeyListener {
         // Blocks
         for (Block b : levels.get(currentLevel)) {
             b.draw(g);
+        }
+        //Enemy
+        for (Enemy e : enemiesPerLevel.get(currentLevel)) {
+            e.draw(g);
         }
     }
 
