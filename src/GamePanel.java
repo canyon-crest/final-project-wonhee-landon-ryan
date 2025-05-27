@@ -28,7 +28,6 @@ public class GamePanel extends JPanel implements KeyListener {
         addKeyListener(this);
 
         player = new Player(100, 500, 40, 80);
-        levels.add(generateRandomPlatformLevel());
         background = new Background();
         levels.add(generateRandomPlatformLevel());
         enemiesPerLevel.add(generateEnemiesForLevel(levels.get(0)));
