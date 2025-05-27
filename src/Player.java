@@ -107,6 +107,12 @@ public class Player {
                 break;
             }
         }
+
+        if (rect.x < 0) {
+            rect.x = 0;
+        } else if (rect.x + rect.width > GamePanel.WIDTH) {
+            rect.x = GamePanel.WIDTH - rect.width;
+        }
     }
 
 

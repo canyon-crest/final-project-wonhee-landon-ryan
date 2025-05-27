@@ -111,9 +111,9 @@ public class GamePanel extends JPanel implements KeyListener {
                 Rectangle pr = player.getRect();
 
                 if (er.x < pr.x) {
-                    pr.x += 2;
+                    pr.x += 3;
                 } else if (er.x > pr.x) {
-                    pr.x -= 2;
+                    pr.x -= 3;
                 }
             }
         }
@@ -125,8 +125,8 @@ public class GamePanel extends JPanel implements KeyListener {
 
         for (Block b : blocks) {
             if (Math.random() < 0.3 && b.getRect().width >= 100 && b.getRect().y < HEIGHT - 100) {
-                int enemyWidth = 30;
-                int enemyHeight = 40;
+                int enemyWidth = 40;
+                int enemyHeight = 80;
                 int x = b.getRect().x + (int)(Math.random() * (b.getRect().width - enemyWidth));
                 int y = b.getRect().y - enemyHeight; // On top of platform
 
@@ -162,16 +162,17 @@ public class GamePanel extends JPanel implements KeyListener {
         // Background
         background.draw(g);
 
+        // Enemy
+        for (Enemy e : enemiesPerLevel.get(currentLevel)) {
+            e.draw(g);
+        }
+
         // Player
         player.draw(g);
 
         // Blocks
         for (Block b : levels.get(currentLevel)) {
             b.draw(g);
-        }
-        //Enemy
-        for (Enemy e : enemiesPerLevel.get(currentLevel)) {
-            e.draw(g);
         }
     }
 
@@ -182,7 +183,7 @@ public class GamePanel extends JPanel implements KeyListener {
         if (currentLevel == 0) {
             newBlocks.add(new Block(0, HEIGHT - 40, WIDTH, 40));
         }
-        int rows = 6;
+        int rows = 7;
         int cols = 6;
         int verticalSpacing = (HEIGHT - 200) / rows;
         int horizontalSpacing = WIDTH / cols;
@@ -194,6 +195,19 @@ public class GamePanel extends JPanel implements KeyListener {
                 int col = (int) (Math.random() * cols);
                 int x = col * horizontalSpacing + (horizontalSpacing - platformWidth) / 2;
                 int y = 80 + i * verticalSpacing;
+
+                // Do not place a platform that is within 100 pixels above another platform
+                boolean shouldPlace = true;
+                for (Block existingBlock : newBlocks) {
+                    if (Math.abs(existingBlock.getRect().y - y) < 100 &&
+                        Math.abs(existingBlock.getRect().x - x) < platformWidth + existingBlock.getRect().width) {
+                        shouldPlace = false;
+                        break;
+                    }
+                }
+                if (!shouldPlace) {
+                    continue;
+                }
 
                 newBlocks.add(new Block(x, y, platformWidth, platformHeight));
             }
