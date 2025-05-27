@@ -1,18 +1,32 @@
 import java.awt.*;
 
 public class Enemy {
-    private Rectangle rect;
-    private int speed = 2;
+    private static final double SPEED = 120.0;
 
-    public Enemy(int x, int y, int width, int height) {
+    private final Rectangle platform;
+    private final Rectangle rect;
+    private boolean direction = true; // true for right, false for left
+
+    public Enemy(Rectangle platform, int x, int y, int width, int height) {
+        this.platform = platform;
         rect = new Rectangle(x, y, width, height);
     }
 
-    public void update(Player player) {
-        if (player.getRect().x < rect.x) {
-            rect.x -= speed;
-        } else if (player.getRect().x > rect.x) {
-            rect.x += speed;
+    public void update(double dt) {
+        if (direction) {
+            if (rect.x + rect.width >= platform.x + platform.width) {
+                direction = false; // Change direction to left
+            }
+        } else {
+            if (rect.x <= platform.x) {
+                direction = true; // Change direction to right
+            }
+        }
+
+        if (direction) {
+            rect.x += (int) (SPEED * dt); // Move right
+        } else {
+            rect.x -= (int) (SPEED * dt); // Move left
         }
     }
 

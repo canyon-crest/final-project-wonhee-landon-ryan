@@ -103,7 +103,7 @@ public class GamePanel extends JPanel implements KeyListener {
         ArrayList<Enemy> currentEnemies = enemiesPerLevel.get(currentLevel);
 
         for (Enemy e : currentEnemies) {
-            e.update(player);
+            e.update(dt);
 
             // If colliding with player, push them
             if (e.getRect().intersects(player.getRect())) {
@@ -130,7 +130,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 int x = b.getRect().x + (int)(Math.random() * (b.getRect().width - enemyWidth));
                 int y = b.getRect().y - enemyHeight; // On top of platform
 
-                enemies.add(new Enemy(x, y, enemyWidth, enemyHeight));
+                enemies.add(new Enemy(b.getRect(), x, y, enemyWidth, enemyHeight));
             }
         }
 
