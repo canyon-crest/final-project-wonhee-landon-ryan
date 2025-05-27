@@ -4,8 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GamePanel extends JPanel implements KeyListener {
+    private static final int LEVEL_COUNT = 10;
+
+    private final JPanel mainPanel;
+    private final CardLayout cardLayout;
+
     private Background background;
     private Player player;
     private ArrayList<ArrayList<Block>> levels = new ArrayList<>();
@@ -15,38 +21,61 @@ public class GamePanel extends JPanel implements KeyListener {
 
     public static final int WIDTH = 800, HEIGHT = 600;
 
-    public GamePanel() {
-    	    setPreferredSize(new Dimension(WIDTH, HEIGHT));
-    	    setFocusable(true);
-    	    addKeyListener(this);
+    public GamePanel(JPanel mainPanel, CardLayout cardLayout) {
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setFocusable(true);
+        addKeyListener(this);
 
-    	    player = new Player(100, 500, 40, 80);
-    	    levels.add(generateRandomPlatformLevel());
-    	    background = new Background();
+        player = new Player(100, 500, 40, 80);
+        levels.add(generateRandomPlatformLevel());
+        background = new Background();
+
+        this.mainPanel = mainPanel;
+        this.cardLayout = cardLayout;
+    }
+
+    public void reset() {
+        currentLevel = 0;
+        levels.clear();
+        levels.add(generateRandomPlatformLevel());
+        player.getRect().setLocation(100, 500);
+        lastUpdate = System.nanoTime();
+        Arrays.fill(keys, false);
     }
 
 
     public void startGameLoop() {
         lastUpdate = System.nanoTime();
         Timer timer = new Timer(16, e -> {
+            if (!isVisible()) {
+                ((Timer) e.getSource()).stop();
+                reset();
+                return;
+            }
+
             update();
             repaint();
         });
         timer.start();
     }
 
-    
 
     private void update() {
         ArrayList<Block> currentBlocks = levels.get(currentLevel);
         long now = System.nanoTime();
         double dt = (double) (now - lastUpdate) / 1e9;
-        lastUpdate = now; 
+        lastUpdate = now;
         player.update(keys, currentBlocks, dt);
 
         // GOING UP
         if (player.getRect().y < 0) {
             currentLevel++;
+
+            if (currentLevel == LEVEL_COUNT) {
+                // You've reached the top level, show win screen
+                cardLayout.show(mainPanel, "win");
+                return;
+            }
 
             // Create a new level above if it doesn't exist
             if (currentLevel >= levels.size()) {
@@ -68,37 +97,19 @@ public class GamePanel extends JPanel implements KeyListener {
         }
     }
 
-    
+
     private void placePlayerAtBottomSafely() {
         int safeY = HEIGHT - player.getRect().height - 50;
         player.getRect().setLocation(player.getRect().x, safeY);
     }
-    
+
     private void placePlayerAtTopSafely() {
         int safeY = 10;
         player.getRect().setLocation(player.getRect().x, safeY);
     }
 
-    private boolean checkCollision1(ArrayList<Block> blocks) {
-        for (Block b : blocks) {
-            if (player.getRect().intersects(b.getRect())) {
-                return true;
-            }
-        }
-        return false;
-    }
 
-
-
-
-
-    private boolean checkCollision(ArrayList<Block> arrayList) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	@Override
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -117,13 +128,13 @@ public class GamePanel extends JPanel implements KeyListener {
             b.draw(g);
         }
     }
-    
+
     private ArrayList<Block> generateRandomPlatformLevel() {
         ArrayList<Block> newBlocks = new ArrayList<>();
 
         // Always add a floor
-        if(currentLevel == 0) {
-        	newBlocks.add(new Block(0, HEIGHT - 40, WIDTH, 40));
+        if (currentLevel == 0) {
+            newBlocks.add(new Block(0, HEIGHT - 40, WIDTH, 40));
         }
         int rows = 6;
         int cols = 6;
@@ -132,9 +143,9 @@ public class GamePanel extends JPanel implements KeyListener {
 
         for (int i = 0; i < rows; i++) {
             if (Math.random() < 0.8) {
-                int platformWidth = 100 + (int)(Math.random() * 50);
+                int platformWidth = 100 + (int) (Math.random() * 50);
                 int platformHeight = 20;
-                int col = (int)(Math.random() * cols);
+                int col = (int) (Math.random() * cols);
                 int x = col * horizontalSpacing + (horizontalSpacing - platformWidth) / 2;
                 int y = 80 + i * verticalSpacing;
 
@@ -149,9 +160,6 @@ public class GamePanel extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         keys[e.getKeyCode()] = true;
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            player.jump();
-        }
     }
 
     @Override
@@ -160,5 +168,6 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
+    }
 }

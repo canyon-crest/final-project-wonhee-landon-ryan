@@ -33,6 +33,7 @@ public class Player {
     private double velocityX = 0;
     private double velocityY = 0;
     private boolean onGround = false;
+    private long lastJumpTime = 0;
 
     private Sprite sprite;
 
@@ -42,6 +43,10 @@ public class Player {
     }
 
     public void update(boolean[] keys, ArrayList<Block> blocks, double dt) {
+        if (keys[KeyEvent.VK_SPACE]) {
+            jump();
+        }
+
         // Handle horizontal movement
         velocityX = 0;
         if (keys[KeyEvent.VK_A]) {
@@ -106,6 +111,11 @@ public class Player {
 
 
     public void jump() {
+        if (System.currentTimeMillis() - lastJumpTime < 50) {
+            return; // Prevent double jumps too quickly
+        }
+        lastJumpTime = System.currentTimeMillis();
+
         if (onGround) {
             velocityY = JUMP_STRENGTH;
         }
