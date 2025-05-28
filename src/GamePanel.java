@@ -38,7 +38,9 @@ public class GamePanel extends JPanel implements KeyListener {
     public void reset() {
         currentLevel = 0;
         levels.clear();
+        enemiesPerLevel.clear();
         levels.add(generateRandomPlatformLevel());
+        enemiesPerLevel.add(generateEnemiesForLevel(levels.get(0)));
         player.getRect().setLocation(100, 500);
         lastUpdate = System.nanoTime();
         Arrays.fill(keys, false);
