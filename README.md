@@ -16,7 +16,8 @@ Hare’s Ascent is a game similar to Jump King where the player must jump up pla
 3. Try not to fall
 4. You win if you get to the top of the tower/the game
 
-
+** Special Features **
+Hare's Ascent uses a 2D physics logic that allows the player to fall down and jump with the appropriate physics (gravity, jump etc). The game also has enemies that try and knock the player off the platform that contributes to our "artificial intelligence" aspect of the project. 
 
 
 ## Phase I - Proposal
