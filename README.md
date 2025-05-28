@@ -5,18 +5,19 @@ This project requires you to design and implement a Java-based game or simulatio
 
 ---
 
-## Project Submission:
+# Project Submission:
 
-# Hare's Ascent: 
+## Hare's Ascent: 
 Hare’s Ascent is a game similar to Jump King where the player must jump up platforms to get to the top of the tower. The player can move left and right using the A and D key and jump using the spacebar. There are enemies that randomly spawn on platforms that can push you off. If the player falls off a platform they may fall to the bottom so be careful.
 
-** How to Play **
+## ** How to Play **
 1. Use A and D to move left and right and spacebar to jump
 2. Avoid enemies as they may push you off
 3. Try not to fall
 4. You win if you get to the top of the tower/the game
 
-** Special Features **
+## ** Special Features **
+
 Hare's Ascent uses a 2D physics logic that allows the player to fall down and jump with the appropriate physics (gravity, jump etc). The game also has enemies that try and knock the player off the platform that contributes to our "artificial intelligence" aspect of the project. 
 
 
