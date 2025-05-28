@@ -1,13 +1,13 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/FZnfA8oE)
 # AP Computer Science A Final Project (Swing)
 
-Video: https://drive.google.com/file/d/1NuCdaJbHD3l31ID2hnIwkmsebTMi3GTh/view?usp=drive_link
-
 This project requires you to design and implement a Java-based game or simulation using **Eclipse** with **Java Swing**. The project is divided into four phases, detailed below:
 
 ---
 
 # Project Submission:
+
+Video: https://drive.google.com/file/d/1NuCdaJbHD3l31ID2hnIwkmsebTMi3GTh/view?usp=drive_link
 
 ## Hare's Ascent: 
 Hare’s Ascent is a game similar to Jump King where the player must jump up platforms to get to the top of the tower. The player can move left and right using the A and D key and jump using the spacebar. There are enemies that randomly spawn on platforms that can push you off. If the player falls off a platform they may fall to the bottom so be careful.
