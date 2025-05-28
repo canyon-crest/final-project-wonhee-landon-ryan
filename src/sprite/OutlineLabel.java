@@ -7,6 +7,14 @@ public class OutlineLabel extends JLabel {
     private Color outlineColor;
     private int outlineWidth; // use int for pixel-perfect offset
 
+    /**
+     * Creates a label with outlined text.
+     * @param text the text to display
+     * @param font the font to use for the text
+     * @param textColor the color of the text
+     * @param outlineColor the color of the outline
+     * @param outlineWidth the width of the outline in pixels
+     */
     public OutlineLabel(String text, Font font, Color textColor, Color outlineColor, float outlineWidth) {
         super(text);
         setFont(font);
@@ -21,6 +29,7 @@ public class OutlineLabel extends JLabel {
     @Override
     protected void paintComponent(Graphics g) {
         String text = getText();
+        // If text is null or empty, just call super to avoid unnecessary drawing
         if (text == null || text.isEmpty()) {
             super.paintComponent(g);
             return;
@@ -33,6 +42,7 @@ public class OutlineLabel extends JLabel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 
+        // Calculate position to center the text
         FontMetrics fm = g2.getFontMetrics();
         int x = getInsets().left;
         int y = getInsets().top + fm.getAscent();

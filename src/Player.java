@@ -10,10 +10,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Player {
+    // Animation for the player character
     private static final SpriteSheet SPRITE_SHEET;
     private static final Animation IDLE_ANIMATION;
     private static final Animation WALK_ANIMATION;
 
+    // Load the sprite sheet and animations
     static {
         try {
             // https://brullov.itch.io/generic-char-asset
@@ -25,23 +27,39 @@ public class Player {
         }
     }
 
+    // Constants for player movement and physics
     private static final double GRAVITY = 2880;
     private static final double JUMP_STRENGTH = -1500;
     private static final double MOVE_SPEED = 400;
 
+    // Player current state
     private Rectangle rect;
     private double velocityX = 0;
     private double velocityY = 0;
     private boolean onGround = false;
     private long lastJumpTime = 0;
 
+    // Player sprite for rendering
     private Sprite sprite;
 
+    /**
+     * Constructor for the Player class.
+     * @param x x coordinate of the player's position
+     * @param y y coordinate of the player's position
+     * @param width width of the player
+     * @param height height of the player
+     */
     public Player(int x, int y, int width, int height) {
         rect = new Rectangle(x, y, width, height);
         sprite = new Sprite(WALK_ANIMATION);
     }
 
+    /**
+     * Updates the player's position and state based on input keys and the current game state.
+     * @param keys array of boolean values representing the state of keys pressed
+     * @param blocks list of blocks in the game for collision detection
+     * @param dt elapsed time since the last update in seconds
+     */
     public void update(boolean[] keys, ArrayList<Block> blocks, double dt) {
         if (keys[KeyEvent.VK_SPACE]) {
             jump();
@@ -116,6 +134,9 @@ public class Player {
     }
 
 
+    /**
+     * Makes the player jump if they are on the ground and not jumping too quickly.
+     */
     public void jump() {
         if (System.currentTimeMillis() - lastJumpTime < 50) {
             return; // Prevent double jumps too quickly
@@ -128,10 +149,18 @@ public class Player {
     }
 
 
+    /**
+     * Draws the player on the screen.
+     * @param g the Graphics object used for drawing
+     */
     public void draw(Graphics g) {
         sprite.draw(g, rect.x + rect.width / 2, rect.y);
     }
-    
+
+    /**
+     * Returns the rectangle representing the player's position and size.
+     * @return the rectangle of the player
+     */
     public Rectangle getRect() {
         return rect;
     }

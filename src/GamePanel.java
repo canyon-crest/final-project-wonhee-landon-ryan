@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GamePanel extends JPanel implements KeyListener {
+    // Number of levels in the game
     private static final int LEVEL_COUNT = 10;
 
+    // References to the main panel and card layout for switching screens
     private final JPanel mainPanel;
     private final CardLayout cardLayout;
 
+    // Game components
     private Background background;
     private Player player;
     private ArrayList<ArrayList<Block>> levels = new ArrayList<>();
@@ -20,8 +23,17 @@ public class GamePanel extends JPanel implements KeyListener {
     private boolean[] keys = new boolean[256];
     private long lastUpdate;
 
+    // Dimensions of the game panel
     public static final int WIDTH = 800, HEIGHT = 600;
 
+    /**
+     * Constructor for the GamePanel.
+     * Initializes the player, background, and first level.
+     * Sets up the key listener for player controls.
+     *
+     * @param mainPanel the main panel containing the game
+     * @param cardLayout the CardLayout for switching between game states
+     */
     public GamePanel(JPanel mainPanel, CardLayout cardLayout) {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setFocusable(true);
@@ -35,6 +47,11 @@ public class GamePanel extends JPanel implements KeyListener {
         this.cardLayout = cardLayout;
     }
 
+    /**
+     * Resets the game state to the initial conditions.
+     * Clears all levels and enemies, generates a new first level,
+     * and resets the player's position.
+     */
     public void reset() {
         currentLevel = 0;
         levels.clear();
@@ -46,7 +63,10 @@ public class GamePanel extends JPanel implements KeyListener {
         Arrays.fill(keys, false);
     }
 
-
+    /**
+     * Starts the game loop that updates the game state and repaints the panel.
+     * Uses a Timer to call the update method at regular intervals.
+     */
     public void startGameLoop() {
         lastUpdate = System.nanoTime();
         Timer timer = new Timer(16, e -> {
@@ -62,7 +82,9 @@ public class GamePanel extends JPanel implements KeyListener {
         timer.start();
     }
 
-
+    /**
+     * Updates the game state based on player input and time elapsed.
+     */
     private void update() {
         ArrayList<Block> currentBlocks = levels.get(currentLevel);
         long now = System.nanoTime();
@@ -121,7 +143,12 @@ public class GamePanel extends JPanel implements KeyListener {
         }
 
     }
-    
+
+    /**
+     * Generates enemies for the current level based on the blocks present.
+     * @param blocks the list of blocks in the current level
+     * @return a list of enemies for the current level
+     */
     private ArrayList<Enemy> generateEnemiesForLevel(ArrayList<Block> blocks) {
         ArrayList<Enemy> enemies = new ArrayList<>();
 
@@ -140,13 +167,17 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
 
-
-
+    /**
+     * Places the player at the bottom of the screen safely.
+     */
     private void placePlayerAtBottomSafely() {
         int safeY = HEIGHT - player.getRect().height - 50;
         player.getRect().setLocation(player.getRect().x, safeY);
     }
 
+    /**
+     * Places the player at the top of the screen safely.
+     */
     private void placePlayerAtTopSafely() {
         int safeY = 10;
         player.getRect().setLocation(player.getRect().x, safeY);
@@ -158,6 +189,7 @@ public class GamePanel extends JPanel implements KeyListener {
         super.paintComponent(g);
 
         Animation.update();
+        // Clear the screen
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
@@ -178,6 +210,11 @@ public class GamePanel extends JPanel implements KeyListener {
         }
     }
 
+    /**
+     * Generates a random platform level with blocks.
+     * The level consists of platforms arranged in a grid-like structure.
+     * @return an ArrayList of Block objects representing the platforms
+     */
     private ArrayList<Block> generateRandomPlatformLevel() {
         ArrayList<Block> newBlocks = new ArrayList<>();
 

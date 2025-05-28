@@ -7,12 +7,20 @@ import java.awt.*;
 public class WinPanel extends JPanel {
     private final Background background;
 
+    /**
+     * Constructor for the WinPanel.
+     * @param mainPanel the main panel that contains the card layout
+     * @param cardLayout the CardLayout used for switching between panels
+     * @param gamePanel the game panel to switch to when restarting the game
+     */
     public WinPanel(JPanel mainPanel, CardLayout cardLayout, GamePanel gamePanel) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+        // Create a label to display the win message
         JLabel winLabel = new OutlineLabel("You Win!", FontUtil.FONT.deriveFont(100f), Color.YELLOW, Color.BLACK, 6f);
         winLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
+        // Create a button to restart the game
         JButton restartButton = new JButton("Play Again");
         restartButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
         restartButton.setFont(FontUtil.FONT);
@@ -30,6 +38,7 @@ public class WinPanel extends JPanel {
 
         background = new Background();
 
+        // Create a vertical box layout to center the win message and button
         Box box = Box.createVerticalBox();
         box.setAlignmentX(Component.CENTER_ALIGNMENT);
         box.add(Box.createVerticalGlue());

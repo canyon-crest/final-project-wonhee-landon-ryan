@@ -7,12 +7,20 @@ import java.awt.*;
 public class TitleScreenPanel extends JPanel {
     private final Background background;
 
+    /**
+     * Constructor for the TitleScreenPanel.
+     * @param mainPanel the main panel that contains the card layout
+     * @param cardLayout the CardLayout used for switching between panels
+     * @param gamePanel the game panel to switch to when starting the game
+     */
     public TitleScreenPanel(JPanel mainPanel, CardLayout cardLayout, GamePanel gamePanel) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+        // Set the background color and size
         JLabel titleLabel = new OutlineLabel("Hare's Ascent", FontUtil.FONT.deriveFont(120f), Color.WHITE, Color.BLACK, 6f);
         titleLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
+        // Create a button to start the game
         JButton startButton = new JButton("Start Game");
         startButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
         startButton.setFont(FontUtil.FONT);
@@ -30,6 +38,7 @@ public class TitleScreenPanel extends JPanel {
 
         background = new Background();
 
+        // Create a vertical box layout to center the title and button
         Box box = Box.createVerticalBox();
         box.setAlignmentX(Component.CENTER_ALIGNMENT);
         box.add(Box.createVerticalGlue());
