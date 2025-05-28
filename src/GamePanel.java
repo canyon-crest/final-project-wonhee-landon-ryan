@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class GamePanel extends JPanel implements KeyListener {
+public class GamePanel extends BackgroundRenderer implements KeyListener {
     // Number of levels in the game
     private static final int LEVEL_COUNT = 10;
 
@@ -15,7 +15,6 @@ public class GamePanel extends JPanel implements KeyListener {
     private final CardLayout cardLayout;
 
     // Game components
-    private Background background;
     private Player player;
     private ArrayList<ArrayList<Block>> levels = new ArrayList<>();
     private ArrayList<ArrayList<Enemy>> enemiesPerLevel = new ArrayList<>();
@@ -40,7 +39,6 @@ public class GamePanel extends JPanel implements KeyListener {
         addKeyListener(this);
 
         player = new Player(100, 500, 40, 80);
-        background = new Background();
         levels.add(generateRandomPlatformLevel());
         enemiesPerLevel.add(generateEnemiesForLevel(levels.get(0)));
         this.mainPanel = mainPanel;
@@ -189,12 +187,6 @@ public class GamePanel extends JPanel implements KeyListener {
         super.paintComponent(g);
 
         Animation.update();
-        // Clear the screen
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
-
-        // Background
-        background.draw(g);
 
         // Enemy
         for (Enemy e : enemiesPerLevel.get(currentLevel)) {

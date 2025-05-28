@@ -4,9 +4,7 @@ import sprite.OutlineLabel;
 import javax.swing.*;
 import java.awt.*;
 
-public class TitleScreenPanel extends JPanel {
-    private final Background background;
-
+public class TitleScreenPanel extends BackgroundRenderer {
     /**
      * Constructor for the TitleScreenPanel.
      * @param mainPanel the main panel that contains the card layout
@@ -36,8 +34,6 @@ public class TitleScreenPanel extends JPanel {
             gamePanel.requestFocusInWindow();
         });
 
-        background = new Background();
-
         // Create a vertical box layout to center the title and button
         Box box = Box.createVerticalBox();
         box.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -47,11 +43,5 @@ public class TitleScreenPanel extends JPanel {
         box.add(startButton);
         box.add(Box.createVerticalGlue());
         add(box);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        background.draw(g);
     }
 }

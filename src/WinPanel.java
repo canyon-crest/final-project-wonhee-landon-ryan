@@ -4,9 +4,7 @@ import sprite.OutlineLabel;
 import javax.swing.*;
 import java.awt.*;
 
-public class WinPanel extends JPanel {
-    private final Background background;
-
+public class WinPanel extends BackgroundRenderer {
     /**
      * Constructor for the WinPanel.
      * @param mainPanel the main panel that contains the card layout
@@ -36,8 +34,6 @@ public class WinPanel extends JPanel {
             gamePanel.requestFocusInWindow();
         });
 
-        background = new Background();
-
         // Create a vertical box layout to center the win message and button
         Box box = Box.createVerticalBox();
         box.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -47,11 +43,5 @@ public class WinPanel extends JPanel {
         box.add(restartButton);
         box.add(Box.createVerticalGlue());
         add(box);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        background.draw(g);
     }
 }
